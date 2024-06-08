@@ -34,11 +34,36 @@ Die Domäne bzw Subdomäne die verwendet werden soll, muss beim jeweiligen Anbie
 
 Außerdem muss DynDNS für die Domäne aktiviert werden (**Achtung:** Die Aktivierung kann je nach Anbieter **24h dauern!**)
 
- # DynDNS Container
- In Portainer einen neuen Stack anlegen.
+# DynDNS Container
+In Portainer einen neuen Stack anlegen und die [dyndns-compose.yaml](dyndns-compose.yaml) einfügen und den Stack deployen.
+ 
+Für Infos siehe das Video [Docker: Wireguard VPN Server leicht gemacht.](https://www.youtube.com/watch?v=awWwU4w1Unw).
 
- # Shell in a Box
- Damit man über die Browser (ohne zB Putty) per SSH auf den Server zugreifen kann, kann man `shellinabox` wie [hier](https://youtu.be/cO2-gQ09Jj0?si=xu-OL-PZgERREs1b&t=711) beschrieben installieren.
+## Testen
+Über `nslookup <meine-vpn-domaene>` kann man herausfinden ob das DynDNS geklappt hat, denn genau dann, wenn die IP die nslookup liefert der öffentlichen Ip des Servers entspricht.
+
+# Wireguard VPN Container
+In Portainer einen neuen Stack anlegen und die [wireguard-compose.yaml](wireguard-compose.yaml) einfügen und den Stack deployen.
+
+Für Infos siehe [GitHub von HoekieN/docker-dynamic-dns](https://github.com/HoekieN/docker-dynamic-dns).
+
+## Portweiterleitung
+Anschließend im Router noch eine Portweiterleitung eingerichtet werden, damit der Traffic an den Port 51820 (siehe [wireguard-compose.yaml](wireguard-compose.yaml)) auch an die IP des Wireguard Server weitergeleitet wird.
+
+Hier am Beispiel einer Fritzbox:
+- http://192.168.178.1 aufrufen und anmelden
+- Wechsel auf `Internet > Freigaben > Portfreigaben`
+- `Gerät für Freigaben hinzufügen` und das jeweilige Gerät auswählen
+- `Neue Freigabe > Portfreigabe`
+
+![grafik](https://github.com/MatthiasOs/docker-vpn/assets/36775764/89430db7-c03a-4bf9-a12d-ac0785fce997)
+
+## Einstellungen
+Die IP des Servers mit dem Wireguard Port 51820 öffnen, ggf mit dem festgelegten Passwort anmelden (siehe [wireguard-compose.yaml](wireguard-compose.yaml)).
+Neue VPN Verbindung Anlegen und auf dem Client Gerät die Verbindung registieren: zB über die Wireguard App auf dem Smartphone und dann den QR Code von der Seite abscannen.
+
+# Shell in a Box
+Damit man über die Browser (ohne zB Putty) per SSH auf den Server zugreifen kann, kann man `shellinabox` wie [hier](https://youtu.be/cO2-gQ09Jj0?si=xu-OL-PZgERREs1b&t=711) beschrieben installieren.
 `sudo apt install shellinabox`
 
 Anschließend ist über https://<lokale.ip.des.servers>:4200 die shell zu erreichen (Achtung: http**s**)
