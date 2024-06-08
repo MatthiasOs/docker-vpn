@@ -27,7 +27,7 @@ sudo docker pull portainer/portainer-ce:latest
 sudo docker run -d -p 9000:9000 -p 9443:9443 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
 ```
 ## Einstellungen
-In Portainer bei Environments -> local die IP festlegen, damit beim Klick auf den Port des jeweiligen Containers direkt die 
+In Portainer (`http://<ip-des-servers>:9000`) bei `Environments -> local` die IP festlegen, damit beim Klick auf den Port des jeweiligen Containers direkt die richtige Adresse göffnet wird.
 
 # (Sub)Domäne erstellen
 Die Domäne bzw Subdomäne die verwendet werden soll, muss beim jeweiligen Anbieter erstellt werden: zB vpn.meinedomaene.de
@@ -35,20 +35,20 @@ Die Domäne bzw Subdomäne die verwendet werden soll, muss beim jeweiligen Anbie
 Außerdem muss DynDNS für die Domäne aktiviert werden (**Achtung:** Die Aktivierung kann je nach Anbieter **24h dauern!**)
 
 # DynDNS Container
-In Portainer einen neuen Stack anlegen und die [dyndns-compose.yaml](dyndns-compose.yaml) einfügen und den Stack deployen.
+In Portainer einen neuen Stack anlegen, die [dyndns-compose.yaml](dyndns-compose.yaml) einfügen und den Stack deployen.
  
 Für Infos siehe das Video [Docker: Wireguard VPN Server leicht gemacht.](https://www.youtube.com/watch?v=awWwU4w1Unw).
 
 ## Testen
-Über `nslookup <meine-vpn-domaene>` kann man herausfinden ob das DynDNS geklappt hat, denn genau dann, wenn die IP die nslookup liefert der öffentlichen Ip des Servers entspricht.
+Über `nslookup <meine-vpn-domaene>` kann man herausfinden ob das DynDNS geklappt hat. Denn genau dann, wenn die IP die nslookup liefert der öffentlichen IP des Servers entspricht.
 
 # Wireguard VPN Container
-In Portainer einen neuen Stack anlegen und die [wireguard-compose.yaml](wireguard-compose.yaml) einfügen und den Stack deployen.
+In Portainer einen neuen Stack anlegen, die [wireguard-compose.yaml](wireguard-compose.yaml) einfügen und den Stack deployen.
 
 Für Infos siehe [GitHub von HoekieN/docker-dynamic-dns](https://github.com/HoekieN/docker-dynamic-dns).
 
 ## Portweiterleitung
-Anschließend im Router noch eine Portweiterleitung eingerichtet werden, damit der Traffic an den Port 51820 (siehe [wireguard-compose.yaml](wireguard-compose.yaml)) auch an die IP des Wireguard Server weitergeleitet wird.
+Anschließend muss im Router noch eine Portweiterleitung eingerichtet werden, damit der Traffic an den Port 51820 (siehe [wireguard-compose.yaml](wireguard-compose.yaml)) auch an die IP des Wireguard Server weitergeleitet wird.
 
 Hier am Beispiel einer Fritzbox:
 - http://192.168.178.1 aufrufen und anmelden
