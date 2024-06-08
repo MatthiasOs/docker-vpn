@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+    docker-dynamic-dns:
+        stdin_open: true
+        tty: true
+        container_name: dyndns
+        restart: unless-stopped
+        environment:
+            - USER=<main-domain-or-username>
+            - PASSWORD=<dyndns-password>
+            - SERVICE=stratodns
+            - HOSTNAME=<vpn-domain>
+            - DETECTIP=1
+            - INTERVAL=5
+        image: ghcr.io/hoekien/docker-dynamic-dns:latest
