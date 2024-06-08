@@ -5,8 +5,9 @@ Verwendete Komponenten:
 - Wireguard
 - Dyndns
 - Domäne (von Strato)
+- Linux Distro (verwendet: Ubuntu Server)
 
-# Als erstes das System updaten
+# System updaten
 ```
 sudo apt update
 sudo apt upgrade
